@@ -7,6 +7,7 @@ on:
 
 jobs:
   run_geo_query:
+    if: contains(github.event.issue.labels.*.name, 'geo_query')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout geo_datahub
@@ -17,7 +18,7 @@ jobs:
           python-version: '3.x'
       - name: Install geo_query
         run: |
-          git clone https://github.com/username/geo_query.git
+          git clone https://github.com/hassanfa/geo_query.git
           cd geo_query
           pip install -e .
       - name: Parse issue body and run geo_query command
