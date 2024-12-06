@@ -22,13 +22,23 @@ jobs:
           git clone https://github.com/hassanfa/geo_query.git
           cd geo_query
           pip install -e .
+      - name: Parse issue body
+        uses: peter-murray/issue-body-parser-action@v3
+        id: issue_parser
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_id: ${{ github.event.issue.number }}
+          payload_marker: 'payload'
       - name: Parse issue body and run geo_query command
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ISSUE_BODY=$(gh issue view ${{ github.event.issue.number }} --json body --jq .body)
-          COMMAND=$(echo "$ISSUE_BODY" | sed -n 's/command: *//p' | sed 's/\r$//')
-          OUTPUT_FILE=$(echo "$ISSUE_BODY" | sed -n 's/outputfile: *//p' | sed 's/\r$//')
+          #ISSUE_BODY=$(gh issue view ${{ github.event.issue.number }} --json body --jq .body)
+          #COMMAND=$(echo "$ISSUE_BODY" | sed -n 's/command: *//p' | sed 's/\r$//')
+          #OUTPUT_FILE=$(echo "$ISSUE_BODY" | sed -n 's/outputfile: *//p' | sed 's/\r$//')
+          PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
+          COMMAND=$(echo "$PARSED_JSON" | jq -r '.geofetchParam')
+          OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
 
           echo "Running command: $COMMAND"
           echo "Output file: $OUTPUT_FILE"
