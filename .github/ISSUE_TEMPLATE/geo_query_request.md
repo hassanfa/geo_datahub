@@ -7,7 +7,9 @@ assignees: ''
 
 ---
 
+```json payload
 {
-  "geofetchParams": "geofetch --help",
+  "geofetchParams": "--count",
   "geofetchOutput": "outputfilename"
 }
+```
