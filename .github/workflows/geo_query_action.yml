@@ -3,7 +3,7 @@ name:
 
 on:
   issues:
-    types: opened
+    types: [opened, edited, labeled]
 
 jobs:
   run_geo_query:
