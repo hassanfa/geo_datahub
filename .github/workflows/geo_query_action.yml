@@ -29,7 +29,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           issue_id: ${{ github.event.issue.number }}
           payload_marker: 'payload'
-      - name: Parse issue body and run geo_query command
+      - name: run geofetch 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -37,7 +37,7 @@ jobs:
           #COMMAND=$(echo "$ISSUE_BODY" | sed -n 's/command: *//p' | sed 's/\r$//')
           #OUTPUT_FILE=$(echo "$ISSUE_BODY" | sed -n 's/outputfile: *//p' | sed 's/\r$//')
           PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
-          COMMAND=$(echo "$PARSED_JSON" | jq -r '.geofetchParam')
+          COMMAND=$(echo "$PARSED_JSON" | jq -r '.geofetchParams')
           OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
 
           echo "Running command: $COMMAND"
