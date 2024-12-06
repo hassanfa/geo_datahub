@@ -33,4 +33,4 @@ jobs:
           echo "Running command: $COMMAND"
           echo "Output file: $OUTPUT_FILE"
 
-          geofetch --help
+          geofetch $COMMAND
