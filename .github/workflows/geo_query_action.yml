@@ -27,8 +27,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_BODY=$(gh issue view ${{ github.event.issue.number }} --json body --jq .body)
-          COMMAND=$(echo "$ISSUE_BODY" | sed -n 's/command: *//p')
-          OUTPUT_FILE=$(echo "$ISSUE_BODY" | sed -n 's/outputfile: *//p')
+          COMMAND=$(echo "$ISSUE_BODY" | sed -n 's/command: *//p' | sed 's/\r$//')
+          OUTPUT_FILE=$(echo "$ISSUE_BODY" | sed -n 's/outputfile: *//p' | sed 's/\r$//')
 
           echo "Running command: $COMMAND"
           echo "Output file: $OUTPUT_FILE"
