@@ -1,0 +1,30 @@
+name:
+  "geo_query action"
+
+on:
+  issues:
+    types: opened
+
+jobs:
+  run_geo_query:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout geo_datahub
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install geo_query
+        run: |
+          git clone https://github.com/username/geo_query.git
+          cd geo_query
+          pip install -e .
+      - name: Parse issue body and run geo_query command
+        run: |
+          ISSUE_BODY=$(gh issue view ${{ github.event.issue.number }} --json body --jq .body)
+          COMMAND=$(echo "$ISSUE_BODY" | sed -n 's/command: *//p')
+          OUTPUT_FILE=$(echo "$ISSUE_BODY" | sed -n 's/outputfile: *//p')
+
+          echo "Running command: $COMMAND"
+          echo "Output file: $OUTPUT_FILE"
