@@ -33,9 +33,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          #ISSUE_BODY=$(gh issue view ${{ github.event.issue.number }} --json body --jq .body)
-          #COMMAND=$(echo "$ISSUE_BODY" | sed -n 's/command: *//p' | sed 's/\r$//')
-          #OUTPUT_FILE=$(echo "$ISSUE_BODY" | sed -n 's/outputfile: *//p' | sed 's/\r$//')
           PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
           COMMAND=$(echo "$PARSED_JSON" | jq -r '.geofetchParams')
           OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
@@ -44,3 +41,23 @@ jobs:
           echo "Output file: $OUTPUT_FILE"
 
           geofetch $COMMAND
+      - name: Store results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
+          OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.outputfile')
+          ISSUE_TITLE=$(gh issue view ${{ github.event.issue.number }} --json title --jq .title)
+
+          if [ -f "$OUTPUT_FILE" ]; then
+            mv "$OUTPUT_FILE" results/
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git add results/"$OUTPUT_FILE"
+            git commit -m "feat: close #${{ github.event.issue.number }} $ISSUE_TITLE"
+            git push
+            echo "Results stored successfully."
+          else
+            echo "Error: Output file '$OUTPUT_FILE' was not generated."
+            exit 1
+          fi
