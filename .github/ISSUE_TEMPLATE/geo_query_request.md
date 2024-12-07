@@ -13,6 +13,7 @@ assignees: ''
   "mesh2": "\"Colorectal Neoplasms\"",
   "organism": "human",
   "geofetchParams": "--count",
-  "geofetchOutput": "outputfilename"
+  "geofetchOutput": "human_brain_Colorectal_Neoplasms.csv"
+  "geofetchOutputType": "csv"
 }
 ```

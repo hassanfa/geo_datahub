@@ -40,13 +40,15 @@ jobs:
           mesh1=$(echo "$PARSED_JSON" | jq -r '.mesh1')
           mesh2=$(echo "$PARSED_JSON" | jq -r '.mesh2')
           orgn=$(echo "$PARSED_JSON" | jq -r '.organism')
-          geofetchparams=$(echo "$PARSED_JSON" | jq -r '.geofetchParams')
-          OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
+          geofetchParams=$(echo "$PARSED_JSON" | jq -r '.geofetchParams')
+          geofetchOutput=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
+          geofetchOutputType=$(echo "$PARSED_JSON" | jq -r '.geofetchOutputType')
 
           echo "Running geofetch for $mesh1 and $mesh2"
           echo "Output file: $OUTPUT_FILE"
 
-          geofetch "${geofetchparams}" -ds 2000/01/01 --entry gse \
+          geofetch "${geofetchParams}" -ds 2000/01/01 --entry gse \
+          --file-write --file-name "${geofetchOutput}" --file-type "${geofetchOutputType}" \
           --log-level DEBUG \
           --sample rna --sample mpss  --sample sage \
           --organism "${orgn}" \
