@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
-          OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.outputfile')
+          OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
           ISSUE_TITLE=$(gh issue view ${{ github.event.issue.number }} --json title --jq .title)
 
           if [ -f "$OUTPUT_FILE" ]; then
