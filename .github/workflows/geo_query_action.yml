@@ -46,7 +46,7 @@ jobs:
           echo "Running geofetch for $mesh1 and $mesh2"
           echo "Output file: $OUTPUT_FILE"
 
-          geofetch "${geofetchParams}" -ds 2000/01/01 --entry gse \
+          geofetch "${geofetchparams}" -ds 2000/01/01 --entry gse \
           --log-level DEBUG \
           --sample rna --sample mpss  --sample sage \
           --organism "${orgn}" \
