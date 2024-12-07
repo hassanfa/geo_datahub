@@ -3,7 +3,6 @@ name:
 
 on:
   issues:
-    #    types: [opened, edited, labeled]
     types: opened
 
 jobs:
@@ -13,15 +12,18 @@ jobs:
     steps:
       - name: Checkout geo_datahub
         uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
+
       - name: Install geo_query
         run: |
           git clone https://github.com/hassanfa/geo_query.git
           cd geo_query
           pip install -e .
+
       - name: Parse issue body
         uses: peter-murray/issue-body-parser-action@v3
         id: issue_parser
@@ -29,18 +31,26 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           issue_id: ${{ github.event.issue.number }}
           payload_marker: 'payload'
+
       - name: run geofetch 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
-          COMMAND=$(echo "$PARSED_JSON" | jq -r '.geofetchParams')
+          mesh1=$(echo "$PARSED_JSON" | jq -r '.mesh1')
+          mesh2=$(echo "$PARSED_JSON" | jq -r '.mesh2')
+          orgn=$(echo "$PARSED_JSON" | jq -r '.organism')
           OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
 
-          echo "Running command: $COMMAND"
+          echo "Running geofetch for $mesh1 and $mesh2"
           echo "Output file: $OUTPUT_FILE"
 
-          geofetch --log-level DEBUG --count
+          geofetch -ds 2000/01/01 --entry gse \
+          --log-level DEBUG \
+          --sample rna --sample mpss  --sample sage \
+          --organism "${orgn}" \
+          --mesh-operator AND --mesh "${mesh1}" --mesh "${mesh2}"
+
       - name: Store results
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

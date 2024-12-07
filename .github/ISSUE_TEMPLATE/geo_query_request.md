@@ -9,6 +9,9 @@ assignees: ''
 
 ```json payload
 {
+  "mesh1": "brain",
+  "mesh2": "\"Colorectal Neoplasms\"",
+  "organism": "human",
   "geofetchParams": "--count",
   "geofetchOutput": "outputfilename"
 }
