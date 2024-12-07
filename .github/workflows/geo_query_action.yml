@@ -40,7 +40,7 @@ jobs:
           echo "Running command: $COMMAND"
           echo "Output file: $OUTPUT_FILE"
 
-          geofetch "${COMMAND}"
+          geofetch --log-level DEBUG --count
       - name: Store results
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
