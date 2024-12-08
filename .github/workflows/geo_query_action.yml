@@ -28,13 +28,13 @@ jobs:
         uses: peter-murray/issue-body-parser-action@v3
         id: issue_parser
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.geo_datahub_release }}
           issue_id: ${{ github.event.issue.number }}
           payload_marker: 'payload'
 
       - name: run geofetch 
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.geo_datahub_release }}
         run: |
           PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
           mesh1=$(echo "$PARSED_JSON" | jq -r '.mesh1')
@@ -56,7 +56,7 @@ jobs:
 
       - name: Store results
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          geo_datahub_release: ${{ secrets.geo_datahub_release }}
         run: |
           PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
           OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
