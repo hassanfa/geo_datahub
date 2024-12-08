@@ -68,10 +68,15 @@ jobs:
             git config user.name geo-bot 
             git config user.email geo-bot@liquidbiopsy.se 
             git add results/"$OUTPUT_FILE"
-            git commit -m "feat: close #${{ github.event.issue.number }} $ISSUE_TITLE"
+            git commit -m "feat: close #${{ github.event.issue.number }} $OUTPUT_FILE"
             git push
             echo "Results stored successfully."
           else
             echo "Error: Output file '$OUTPUT_FILE' was not generated."
             exit 1
           fi
+      - name: Trigger release-please workflow
+        run: |
+          gh workflow run release-please.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
