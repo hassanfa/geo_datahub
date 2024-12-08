@@ -56,7 +56,8 @@ jobs:
 
       - name: Store results
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           PARSED_JSON='${{ steps.issue_parser.outputs.payload }}'
           OUTPUT_FILE=$(echo "$PARSED_JSON" | jq -r '.geofetchOutput')
