@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/hassanfa/geo_datahub/compare/v1.0.0...v1.1.0) (2024-12-09)
+
+
+### Features
+
+* close [#41](https://github.com/hassanfa/geo_datahub/issues/41) human_fat_body_weight.csv ([722604a](https://github.com/hassanfa/geo_datahub/commit/722604acfecf56f5a75a91243da1c88c8e1a596f))
+* close [#43](https://github.com/hassanfa/geo_datahub/issues/43) human_Colon_Colorectal_Neoplasms.csv ([6cdcee2](https://github.com/hassanfa/geo_datahub/commit/6cdcee272c41c16ff91062a8f9683ac2f0b4980a))
+
 ## 1.0.0 (2024-12-08)
 
 
