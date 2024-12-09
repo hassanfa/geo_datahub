@@ -1,0 +1,3 @@
+# geofetch version: 4.4.2
+# date: 20241209
+# query: gse[Entry Type] AND (human[Organism]) AND (2000/01/01[Publication Date] : 3000[Publication Date]) AND (rna[Sample Type] OR mpss[Sample Type] OR sage[Sample Type]) AND (fat[MeSH Terms] AND "body weight"[MeSH Terms])
